@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cinema site</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<div>
+    {% if messages %}
+        {% for message in messages %}
+            <h1>{{ message }}</h1>
+        {% endfor %}
+    {% endif %}
+
+    <form method="get" action="{% url 'main_page' %}">
+        <input class="mainpage" type="submit" value="Main page">
+    </form>
+
+
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>

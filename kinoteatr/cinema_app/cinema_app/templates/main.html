@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+        {% load static %}
+        {% if request.user.is_authenticated and request.user.is_superuser == False %}
+            <h2>{{ request.user }}</h2>
+            <form method="get" action="{% url 'logout' %}">
+                <input type="submit" value="Logout">
+            </form>
+
+            <form method="get" action="{% url 'purchases' %}">
+                <input type="submit" value="My purchases">
+            </form>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; last</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+<hr>
+
+            {% for movie in object_list %}
+                <form method="post" action="{% url 'buying_create' %}">
+                    <div class="infa">
+                        <P>Movie: {{ movie.movie_title }}
+                        <p>{{ movie.show_hall }}</p>
+                        <p>Price: {{ movie.price }}</p>
+                        <p>Start time seance: {{ movie.start_time_seance }}</p>
+                        <p>End time seance: {{ movie.end_time_seance }}</p>
+                        <p>Start date: {{ movie.show_start_date.date }}</p>
+                        <p>End date: {{ movie.show_end_date.date }}</p>
+                        <p>Free seats: {{ movie.free_seats }}</p>
+                        <p>{{ buying_form }}</p>
+                        {% csrf_token %}
+                        <input type="hidden" name="movie_id" value="{{ movie.id }}">
+                        <input type="submit" value="buy">
+                        <hr>
+                    </div>
+                </form>
+            {% endfor %}
+        {% endif %}
+
+
+
+        {% if request.user.is_superuser %}
+            <form method="get" action="{% url 'logout' %}">
+                <br>
+                <input type="submit" value="Logout">
+            </form>
+
+
+            <form method="get" action="{% url 'create_cinema_hall' %}">
+                <input type="submit" value="Create cinema hall">
+            </form>
+
+            <form method="get" action="{% url 'crete_movie_seance' %}">
+                <input type="submit" value="Create movie seance">
+            </form>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; last</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+<hr>
+
+            {% for movie in object_list %}
+                <div>
+                        <P>Movie: {{ movie.movie_title }}
+                        <p>{{ movie.show_hall }}</p>
+                        <p>Price: {{ movie.price }}</p>
+                        <p>Start time seance: {{ movie.start_time_seance }}</p>
+                        <p>End time seance: {{ movie.end_time_seance }}</p>
+                        <p>Start date: {{ movie.show_start_date.date }}</p>
+                        <p>End date: {{ movie.show_end_date.date }}</p>
+                        <p>Free seats: {{ movie.free_seats }}</p>
+
+
+                <form method="get" action="{% url 'update_movie' movie.pk %}">
+                    <input type="submit" value="Update movie">
+                </form>
+
+                    <form method="get" action="{% url 'update_cinema' movie.show_hall.pk %}">
+                        <input type="submit" value="Update hall">
+                    </form>
+                <hr>
+                </div>
+
+            {% endfor %}
+        {% endif %}
+
+        {% if request.user.is_anonymous %}
+            <form method="get" action="{% url 'login' %}">
+                <input type="submit" value="Login">
+            </form>
+            <form method="get" action="{% url 'registration' %}">
+                <input type="submit" value="Registration">
+            </form>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; last</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+<hr>
+
+            {% for movie in object_list %}
+                <div>
+                        <P>Movie: {{ movie.movie_title }}
+                        <p>{{ movie.show_hall }}</p>
+                        <p>Price: {{ movie.price }}</p>
+                        <p>Start time seance: {{ movie.start_time_seance }}</p>
+                        <p>End time seance: {{ movie.end_time_seance }}</p>
+                        <p>Start date: {{ movie.show_start_date.date }}</p>
+                        <p>End date: {{ movie.show_end_date.date }}</p>
+                        <p>Free seats: {{ movie.free_seats }}</p>
+                        <hr>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+
+{% endblock %}

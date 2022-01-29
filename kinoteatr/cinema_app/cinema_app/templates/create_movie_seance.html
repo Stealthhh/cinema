@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form method="post">
+            {% csrf_token %}
+        <p>Movie title: {{ form.movie_title }}</p>
+        <p>Show hall: {{ form.show_hall }}</p>
+        <p>Start time: <input type="time" name="start_time_seance" id="id_start_time_seance" required></p>
+        <p>End time: <input type="time" name="end_time_seance" id="id_end_time_seance" required></p>
+        <p>Start date: <input type="date" name="show_start_date" id="id_show_start_date" required></p>
+        <p>End date: <input type="date" name="show_end_date" id="id_show_end_date" required></p>
+        <p>Price: {{ form.price }}</p>
+
+        <input type="submit" value="Create">
+            {{ form.errors }}
+    </form>
+{% endblock %}
